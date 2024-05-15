@@ -50,27 +50,41 @@ public class ChannelController {
 		return "channel";
 	}
 
-	@GetMapping("/channels/{userId}")
-	public String showChannels(@PathVariable Long userId, Model model) {
-		List<Channel> channels = channelService.findAll();
-		Optional<User> optionalUser = userService.findById(userId);
+//
+@GetMapping("/channels/{userId}")
+public String showChannels(@PathVariable Long userId, Model model) {
+	List<Channel> channels = channelService.findAll();
+	Optional<User> optionalUser = userService.findById(userId);
+	if (optionalUser.isPresent()) {
 		User user = optionalUser.get();
-		Channel channel = new Channel();
 		model.addAttribute("user", user);
 		model.addAttribute("channels", channels);
-		model.addAttribute("channel", channel);
-		return "channels";
+		System.out.println("User: " + user.getUsername());
+		System.out.println("Channels: ");
+		channels.forEach(channel -> System.out.println(channel.getName()));
 	}
+	return "channels";
+}
+
+
+//	@PostMapping("/channels/createChannel/{userId}")
+//		public String createChannel(String name, @PathVariable Long userId) {
+//		Channel newChannel = new Channel();
+//		newChannel.setName(name);
+//		Channel savedChannel = channelService.save(newChannel);
+//		System.out.println(name);
+//		System.out.println(savedChannel.getId());
+////		redirectAttributes.addFlashAttribute("successMessage", "Channel '" + channelName + "' created successfully");
+//
+//		return "redirect:/channels/" + userId;
+//	}
 
 	@PostMapping("/channels/createChannel/{userId}")
-		public String createChannel(String name, @PathVariable Long userId) {
+	public String createChannel(String name, @PathVariable Long userId) {
 		Channel newChannel = new Channel();
 		newChannel.setName(name);
-		Channel savedChannel = channelService.save(newChannel);
-		System.out.println(name);
-		System.out.println(savedChannel.getId());
-//		redirectAttributes.addFlashAttribute("successMessage", "Channel '" + channelName + "' created successfully");
-		
+		channelService.save(newChannel);
+		System.out.println("Created new channel with name: " + name);
 		return "redirect:/channels/" + userId;
 	}
 
