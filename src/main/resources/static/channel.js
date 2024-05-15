@@ -1,91 +1,91 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   const username = sessionStorage.getItem("username");
-//   const userIdInput = document.getElementById("userId");
-//   const userId = userIdInput.value;
-//   const channelIdInput = document.getElementById("channelId");
-//   const channelId = channelIdInput.value;
-//   const channelNameInput = document.getElementById("channelName");
-//   const channelName = channelNameInput.value;
-//   const messagesContainer = document.getElementById("messagesContainer");
+document.addEventListener("DOMContentLoaded", function () {
+  const username = sessionStorage.getItem("username");
+  const userIdInput = document.getElementById("userId");
+  const userId = userIdInput.value;
+  const channelIdInput = document.getElementById("channelId");
+  const channelId = channelIdInput.value;
+  const channelNameInput = document.getElementById("channelName");
+  const channelName = channelNameInput.value;
+  const messagesContainer = document.getElementById("messagesContainer");
 
-//   console.log(username, channelId, userId, channelName);
-//   console.log(channelId);
-//   console.log(userId);
+  console.log(username, channelId, userId, channelName);
+  console.log(channelId);
+  console.log(userId);
 
-//   const btnSendMessage = document.getElementById("sendMessage");
-//   if (btnSendMessage) {
-//     btnSendMessage.addEventListener("click", function (event) {
-//       event.preventDefault();
-//       const messageContent = document.getElementById("messageContent").value;
-//       let message = {
-//         user: {
-//           username: username,
-//           id: userId,
-//         },
-//         content: messageContent,
-//         channel: {
-//           id: channelId,
-//           name: channelName,
-//         },
-//       };
+  const btnSendMessage = document.getElementById("sendMessage");
+  if (btnSendMessage) {
+    btnSendMessage.addEventListener("click", function (event) {
+      event.preventDefault();
+      const messageContent = document.getElementById("messageContent").value;
+      let message = {
+        user: {
+          username: username,
+          id: userId,
+        },
+        content: messageContent,
+        channel: {
+          id: channelId,
+          name: channelName,
+        },
+      };
 
-//       const jsonMessage = JSON.stringify(message);
-//       console.log("JSON Message:", jsonMessage);
+      const jsonMessage = JSON.stringify(message);
+      console.log("JSON Message:", jsonMessage);
 
-//       console.log("Message Output:", message);
-//       fetch(`/api/messages/createMessage/${channelId}`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(message),
-//       })
-//         .then((response) => {
-//           if (!response.ok) {
-//             throw new Error("Network response was not ok");
-//           }
-//           return response.json();
-//         })
-//         .then((data) => {
-//           console.log("New message:", data);
-//           renderMessage(data.user.username, data.content);
-//           document.getElementById("messageContent").value = "";
-//         })
-//         .catch((error) => console.error("Error posting message:", error));
-//     });
-//   }
+      console.log("Message Output:", message);
+      fetch(`/api/messages/createMessage/${channelId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(message),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("New message:", data);
+          renderMessage(data.user.username, data.content);
+          document.getElementById("messageContent").value = "";
+        })
+        .catch((error) => console.error("Error posting message:", error));
+    });
+  }
 
-//   function renderMessage(username, message) {
-//     // console.log(data.user.username);
-//     const div = document.createElement("div");
-//     // const username = data.user.username ? data.user.username : "Unknown user"; // Default to 'Unknown user' if user data is missing
-//     // const messageHTML = `<p>${data.user.username} : ${data.content}</p>`;
-//     const messageHTML = `<p>${username} : ${message}</p>`;
+  function renderMessage(username, message) {
+    // console.log(data.user.username);
+    const div = document.createElement("div");
+    // const username = data.user.username ? data.user.username : "Unknown user"; // Default to 'Unknown user' if user data is missing
+    // const messageHTML = `<p>${data.user.username} : ${data.content}</p>`;
+    const messageHTML = `<p>${username} : ${message}</p>`;
 
-//     console.log(messageHTML);
-//     div.innerHTML = messageHTML;
-//     messagesContainer.appendChild(div);
-//   }
-//   function getAllMessages() {
-//     const channelId = document.getElementById("channelId").value;
-//     fetch(`/api/messages/channels/${channelId}/messages`)
-//       .then((response) => response.json())
-//       .then((messages) => {
-//         messages.forEach((message) => {
-//           // if (message.user.id !== userId) {
-//           renderMessage(message.user.username, message.content);
-//           console.log(message);
-//           // }
-//         });
-//       })
-//       .catch((error) => console.error("Failed to load messages:", error));
-//   }
+    console.log(messageHTML);
+    div.innerHTML = messageHTML;
+    messagesContainer.appendChild(div);
+  }
+  function getAllMessages() {
+    const channelId = document.getElementById("channelId").value;
+    fetch(`/api/messages/channels/${channelId}/messages`)
+      .then((response) => response.json())
+      .then((messages) => {
+        messages.forEach((message) => {
+          // if (message.user.id !== userId) {
+          renderMessage(message.user.username, message.content);
+          console.log(message);
+          // }
+        });
+      })
+      .catch((error) => console.error("Failed to load messages:", error));
+  }
 
-//   getAllMessages();
-// });
+  getAllMessages();
+});
 
-// // setInterval(getAllMessages, 3000);
-// document.addEventListener("DOMContentLoaded", getAllMessages);
+// setInterval(getAllMessages, 3000);
+document.addEventListener("DOMContentLoaded", getAllMessages);
 
 // const username = sessionStorage.getItem("username");
 // const userIdInput = document.getElementById("userId");
@@ -245,9 +245,6 @@
 //   }
 // });
 
-
-
-
 // document.addEventListener("DOMContentLoaded", function () {
 //   const username = sessionStorage.getItem("username");
 //   const userId = sessionStorage.getItem("userId");
@@ -334,119 +331,118 @@
 //   fetchNewMessages();
 // });
 
+// document.addEventListener("DOMContentLoaded", function () {
+//   const username = sessionStorage.getItem("username");
+//   const userIdInput = document.getElementById("userId");
+//   const userId = userIdInput.value;
+//   const channelIdInput = document.getElementById("channelId");
+//   const channelId = channelIdInput.value;
+//   const channelNameInput = document.getElementById("channelName");
+//   const channelName = channelNameInput.value;
+// //   const messagesContainer = document.getElementById("messagesContainer");
+//   if (!username || !userId) {
+//     window.location.replace("http://localhost:8080/");
+//     return;
+//   }
 
+//   const messagesContainer = document.getElementById("messagesContainer");
 
+//   console.log("User on channel: " + username);
+//   console.log("UserId of User on channel: " + userId);
 
-document.addEventListener("DOMContentLoaded", function () {
-    const username = sessionStorage.getItem("username");
-    const userId = sessionStorage.getItem("userId");
+//   const messageInput = document.getElementById("messageContent");
 
-    if (!username || !userId) {
-        window.location.replace("http://localhost:8080/");
-        return;
-    }
+//   if (messageInput && messageInput.form) {
+//     messageInput.form.addEventListener("submit", function (event) {
+//       event.preventDefault();
+//       sendMessage();
+//     });
+//   }
 
-    const messagesContainer = document.getElementById("messagesContainer");
+//   function sendMessage() {
+//     const messageContent = messageInput.value.trim();
+//     const channelId = sessionStorage.getItem("channelId");
+//     const channelName = sessionStorage.getItem("channelName");
 
-    console.log("User on channel: " + username);
-    console.log("UserId of User on channel: " + userId);
+//     if (messageContent !== "") {
+//       let message = {
+//         user: {
+//           username: username,
+//           id: userId,
+//         },
+//         content: messageContent,
+//         channel: {
+//           id: channelId,
+//           name: channelName,
+//         },
+//       };
 
-    const messageInput = document.getElementById("messageContent");
+//       fetch(`/api/messages/createMessage/${channelId}`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(message),
+//       })
+//         .then((response) => response.json())
+//         .then((data) => {
+//           console.log("New message:", data);
+//           renderMessage(username, messageContent); // Render the sent message immediately
+//           messageInput.value = "";
+//         })
+//         .catch((error) => console.error("Error posting message:", error));
+//     }
+//   }
 
-    if (messageInput && messageInput.form) {
-        messageInput.form.addEventListener("submit", function (event) {
-            event.preventDefault();
-            sendMessage();
-        });
-    }
+//   function renderMessage(username, message) {
+//     const messageElement = document.createElement("p");
+//     messageElement.textContent = `${username} : ${message}`;
+//     messagesContainer.append(messageElement);
+//   }
 
-    function sendMessage() {
-        const messageContent = messageInput.value.trim();
-        const channelId = sessionStorage.getItem("channelId");
-        const channelName = sessionStorage.getItem("channelName");
+//   function fetchNewMessages() {
+//     const channelId = sessionStorage.getItem("channelId");
 
-        if (messageContent !== '') {
-            let message = {
-                user: {
-                    username: username,
-                    id: userId,
-                },
-                content: messageContent,
-                channel: {
-                    id: channelId,
-                    name: channelName,
-                },
-            };
+//     fetch(`/api/messages/channels/${channelId}/messages`)
+//       .then((response) => response.json())
+//       .then((messages) => {
+//         messagesContainer.innerHTML = "";
+//         messages.forEach((message) => {
+//           renderMessage(message.username, message.content); // Adjusted to fetch username from DTO
+//         });
+//       })
+//       .catch((error) => console.error("Failed to load messages:", error));
+//   }
 
-            fetch(`/api/messages/createMessage/${channelId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(message),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log("New message:", data);
-                renderMessage(username, messageContent); // Render the sent message immediately
-                messageInput.value = '';
-            })
-            .catch((error) => console.error("Error posting message:", error));
-        }
-    }
+//   // Poll for new messages every 5 seconds
+//   setInterval(fetchNewMessages, 5000);
 
-    function renderMessage(username, message) {
-        const messageElement = document.createElement('p');
-        messageElement.textContent = `${username} : ${message}`;
-        messagesContainer.append(messageElement);
-    }
+//   // Initial fetch for messages
+//   fetchNewMessages();
 
-    function fetchNewMessages() {
-        const channelId = sessionStorage.getItem("channelId");
-
-        fetch(`/api/messages/channels/${channelId}/messages`)
-            .then((response) => response.json())
-            .then((messages) => {
-                messagesContainer.innerHTML = '';
-                messages.forEach(message => {
-                    renderMessage(message.username, message.content); // Adjusted to fetch username from DTO
-                });
-            })
-            .catch((error) => console.error("Failed to load messages:", error));
-    }
-
-    // Poll for new messages every 5 seconds
-    setInterval(fetchNewMessages, 5000);
-
-    // Initial fetch for messages
-    fetchNewMessages();
-
-    // Handle create channel form submission
-    const createChannelForm = document.getElementById("createChannelForm");
-    if (createChannelForm) {
-        createChannelForm.addEventListener("submit", function(event) {
-            event.preventDefault();
-            const channelName = document.getElementById("channelName").value.trim();
-            if (channelName) {
-                // fetch(`/api/channels/createChannel/${userId}`, {
-                fetch(`/api/channels/createChannel/`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ channelName: channelName }) // Ensure the JSON field matches the DTO
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log("Created new channel:", data);
-                    // Optionally, you can refresh the channel list or redirect to the new channel
-                    window.location.reload(); // Simple way to refresh the channel list
-                })
-                .catch((error) => console.error("Error creating channel:", error));
-            }
-        });
-    }
-});
-
-
-  
+//   // Handle create channel form submission
+//   const createChannelForm = document.getElementById("createChannelForm");
+//   if (createChannelForm) {
+//     createChannelForm.addEventListener("submit", function (event) {
+//       event.preventDefault();
+//       const channelName = document.getElementById("channelName").value.trim();
+//       if (channelName) {
+//         // fetch(`/api/channels/createChannel/${userId}`, {
+//         fetch(`/api/channels/createChannel/`, {
+//           method: "POST",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({ channelName: channelName }), // Ensure the JSON field matches the DTO
+//         })
+//           .then((response) => response.json())
+//           .then((data) => {
+//             console.log("Created new channel:", data);
+//             // Optionally, you can refresh the channel list or redirect to the new channel
+//             window.location.reload(); // Simple way to refresh the channel list
+//           })
+//           .catch((error) => console.error("Error creating channel:", error));
+//       }
+//     });
+//   }
+// });
