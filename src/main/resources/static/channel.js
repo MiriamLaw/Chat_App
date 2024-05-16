@@ -1,3 +1,4 @@
+
 const username = sessionStorage.getItem("username");
 const userIdInput = document.getElementById("userId");
 const userId = userIdInput.value;
@@ -72,10 +73,12 @@ function renderMessage(username, message) {
 }
 // function getAllMessages() {
 // //   const channelId = document.getElementById("channelId").value;
+
 //   fetch(`/api/messages/channels/${channelId}/messages`)
 //     .then((response) => response.json())
 //     .then((messages) => {
 //       messages.forEach((message) => {
+
 //         // if (message.user.id !== userId) {
 //         renderMessage(message.user.username, message.content);
 //         if (message.id > mostRecentMessageId) {
@@ -83,10 +86,12 @@ function renderMessage(username, message) {
 //         }
 //         console.log(mostRecentMessageId);
 //         // }
+
 //       });
 //     })
 //     .catch((error) => console.error("Failed to load messages:", error));
 // }
+
 
 async function getAllMessages() {
   try {
@@ -129,3 +134,4 @@ async function checkForNewMessages() {
   }
 }
 setInterval(checkForNewMessages, 2000);
+

@@ -27,10 +27,11 @@ public class ChannelApiController {
 	
 	@PostMapping("/createChannel")
 	public ResponseEntity<?> createChannel(@RequestBody ChannelDTO channelDto) {
+		System.out.println("Received channel name from DTO: " + channelDto.getChannelName());
 		Channel newChannel = new Channel();
 		newChannel.setName(channelDto.getChannelName());
 		Channel savedChannel = channelService.save(newChannel);
-		
+		System.out.println("Created new channel with name: " + savedChannel.getName());
 		Map<String, Object> response = new HashMap<>();
 		response.put("id", savedChannel.getId());
 		response.put("name", savedChannel.getName());

@@ -14,3 +14,32 @@
     <script src="/welcome.js"></script>
   </body>
 </html>
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Welcome</title>
+  </head>
+  <body>
+    <h1>Welcome to the Chat App!</h1>
+    <form id="joinForm" th:action="@{/setUser}" method="post">
+      <label for="username">Enter your name:</label>
+      <input type="text" id="username" name="username" required />
+      <button type="submit">Join</button>
+    </form>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const joinForm = document.getElementById("joinForm");
+
+        joinForm.addEventListener("submit", function () {
+          //GETS THE VALUE FROM THE USERNAME INPUT & STORES IT IN SESSION
+          const username = document.getElementById("username").value;
+          sessionStorage.setItem("username", username);
+
+          //INITIATES FORM SUBMIT
+        });
+      });
+    </script>
+    <script type="text/javascript" src="/welcome.js"></script>
+  </body>
+</html> -->

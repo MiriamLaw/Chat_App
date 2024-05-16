@@ -8,12 +8,10 @@
         <input type="hidden" id="channelName" th:value="${channel.name}" />
         <input type="hidden" id="userId" th:value="${user.id}" />
         <h1 th:text="${channel.name}">Channel name</h1>
-        <div id="messagesContainer">
+        <div id="messagesContainer"></div>
 
-        </div>
-
-        </div>
-        <form id="messageForm" action="#" th:action="@{/channels/{channelId}/messages(channelId=${channel.id})}" method="post">
+        
+        <form id="messageForm" action="#" th:action="@{/channels/{channelId}/messages(channelId=${channel.id})}" method="post"> -->
             <input type="text" id="messageContent" name="messageContent" required>
             <button type="button" id="sendMessage">Send</button>
         </form>
@@ -21,3 +19,23 @@
 
     </body>
 </html>
+
+
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Channel</title>
+</head>
+<body>
+    <input type="hidden" id="channelId" th:value="${channel.id}" />
+    <input type="hidden" id="channelName" th:value="${channel.name}" />
+    <input type="hidden" id="userId" th:value="${user.id}" />
+    <h1 th:text="${channel.name}">Channel name</h1>
+    <div id="messagesContainer"></div>
+    <form id="messageForm">
+        <input type="text" id="messageContent" name="messageContent" required />
+        <button type="button" id="sendMessage">Send</button>
+    </form>
+    <!-- <script src="/channel.js"></script> -->
+</body>
+</html> -->
