@@ -7,11 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.coderscampus.miriamassignment14.domain.Channel;
@@ -75,8 +71,13 @@ public class MessageApiController {
 
 	//added username field to messageDTO and modified below
 	@GetMapping("/channels/{channelId}/messages")
-	public ResponseEntity<List<Message>> getMessages(@PathVariable Long channelId) {
-		List<Message> messages = messageService.findMessagesByChannelId(channelId);
+	public ResponseEntity<List<Message>> getMessages(@PathVariable Long channelId, @RequestParam(required=false) Long mostRecentMessageId) {
+		List<Message> messages;
+		if(mostRecentMessageId != null) {
+			messages = messageService.findNewMessagesByChannelId(channelId, mostRecentMessageId);
+		} else {
+			messages = messageService.findMessagesByChannelId(channelId);
+		}
 //		List<Message> messageDTOs = messages.stream().map(message -> {
 //			MessageDTO dto = new MessageDTO();
 //			dto.setContent(message.getContent());

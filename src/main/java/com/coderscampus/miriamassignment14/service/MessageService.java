@@ -48,4 +48,8 @@ public class MessageService {
 	public List<Message> findMessagesByChannelId(Long channelId) {
 		return messageRepository.findByChannelId(channelId);
 	}
+
+    public List<Message> findNewMessagesByChannelId(Long channelId, Long mostRecentMessageId) {
+		return messageRepository.findByChannelIdAndIdGreaterThan(channelId, mostRecentMessageId);
+    }
 }

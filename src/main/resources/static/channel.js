@@ -6,28 +6,30 @@ const channelId = channelIdInput.value;
 const channelNameInput = document.getElementById("channelName");
 const channelName = channelNameInput.value;
 const messagesContainer = document.getElementById("messagesContainer");
+let mostRecentMessageId = 0;
+const messageContent = document.getElementById("messageContent");
 
 console.log(username);
 console.log(channelId);
 console.log(userId);
 
+messageContent.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    btnSendMessage.click();
+  }
+});
 
-//added below to fetch all messages for the channel
-
-
-
-// if (messageForm) {
 const btnSendMessage = document.getElementById("sendMessage");
 btnSendMessage.addEventListener("click", function () {
-  // event.preventDefault();
-  const messageContent = document.getElementById("messageContent").value;
-  // console.log("Message Input:", messageContent);
+  const messageBody = messageContent.value;
+
   let message = {
     user: {
       username: username,
       id: userId,
     },
-    content: messageContent,
+    content: messageBody,
     channel: {
       id: channelId,
       name: channelName,
@@ -51,22 +53,11 @@ btnSendMessage.addEventListener("click", function () {
     .then((data) => {
       console.log("New message:", data);
       renderMessage(data.user.username, data.content);
+      mostRecentMessageId = data.id;
+      console.log("Message Id:", mostRecentMessageId);
       document.getElementById("messageContent").value = "";
     });
-  // Now able to update the UI or perform any other operations with the new message data
 });
-
-// function fetchMessages() {
-//   fetch(`/api/messages/channels/${channelId}`)
-//     .then((response) => response.json())
-//     .then((Messages) => {
-//       messagesContainer.innerHTML = ''; 
-//       messages.forEach(message => {
-//         renderMessage(message);
-//       });
-//     })
-//     .catch((error) => console.error("Failed to load messages:", error));
-// }
 
 function renderMessage(username, message) {
   // console.log(data.user.username);
@@ -79,20 +70,62 @@ function renderMessage(username, message) {
   div.innerHTML = messageHTML;
   messagesContainer.appendChild(div);
 }
-  function getAllMessages() {
-  const channelId = document.getElementById("channelId").value;
-  fetch(`/api/messages/channels/${channelId}/messages`)
-    .then((response) => response.json())
-    .then((messages) => {
-      messages.forEach((message) => {
-        // if (message.user.id !== userId) {
-        renderMessage(message.user.username, message.content);
-        console.log(message);
-        // }
-      });
-    })
-    .catch((error) => console.error("Failed to load messages:", error));
-  };
+// function getAllMessages() {
+// //   const channelId = document.getElementById("channelId").value;
+//   fetch(`/api/messages/channels/${channelId}/messages`)
+//     .then((response) => response.json())
+//     .then((messages) => {
+//       messages.forEach((message) => {
+//         // if (message.user.id !== userId) {
+//         renderMessage(message.user.username, message.content);
+//         if (message.id > mostRecentMessageId) {
+//             mostRecentMessageId = message.id;
+//         }
+//         console.log(mostRecentMessageId);
+//         // }
+//       });
+//     })
+//     .catch((error) => console.error("Failed to load messages:", error));
+// }
 
-// setInterval(getAllMessages, 3000);
+async function getAllMessages() {
+  try {
+    const response = await fetch(
+      `/api/messages/channels/${channelId}/messages`
+    );
+    const messages = await response.json();
+
+    messages.forEach((message) => {
+      renderMessage(message.user.username, message.content);
+      if (message.id > mostRecentMessageId) {
+        mostRecentMessageId = message.id;
+      }
+      console.log(mostRecentMessageId);
+    });
+  } catch (error) {
+    console.error("Failed to load messages:", error);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", getAllMessages);
+async function checkForNewMessages() {
+  try {
+    const response = await fetch(
+      `/api/messages/channels/${channelId}/messages?mostRecentMessageId=${mostRecentMessageId}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const newMessages = await response.json();
+    newMessages.forEach((message) => {
+      // if (message.user.id !== userId) {
+      renderMessage(message.user.username, message.content);
+      if (message.id > mostRecentMessageId) {
+        mostRecentMessageId = message.id;
+      }
+    });
+  } catch (error) {
+    console.error("Failed to load new messages:", error);
+  }
+}
+setInterval(checkForNewMessages, 2000);
