@@ -29,32 +29,11 @@ public class MessageApiController {
 		this.channelService = channelService;
 	}
 
-//	@PostMapping("/createMessage/${channelId}")
-//	public ResponseEntity<Message> createMessage(@RequestBody MessageDTO messageDTO, HttpSession session) {
-//		User user = (User) session.getAttribute("user");
-//		if (user == null) {
-//			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-//		}
-//
-//		Channel channel = channelService.findById(messageDTO.getChannelId())
-//				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
-//
-//		Message message = new Message();
-//		message.setContent(messageDTO.getContent());
-//		message.setChannel(channel);
-//		message.setUser(user);
-//
-//		messageService.save(message);
-//
-//		return ResponseEntity.ok().body("Message posted successfully");
-//	}
+//	
 	
 	@PostMapping("/createMessage/{channelId}")
 	public ResponseEntity<Message> createMessage(@PathVariable Long channelId, @RequestBody Message message) {
-//		User user = (User) session.getAttribute("user");
-//		if (user == null) {
-//			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not logged in");
-//		}
+//
 
 		Channel channel = channelService.findById(channelId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
@@ -69,7 +48,7 @@ public class MessageApiController {
 		return ResponseEntity.ok(savedMessage);
 	}
 
-	//added username field to messageDTO and modified below
+
 	@GetMapping("/channels/{channelId}/messages")
 	public ResponseEntity<List<Message>> getMessages(@PathVariable Long channelId, @RequestParam(required=false) Long mostRecentMessageId) {
 		List<Message> messages;
@@ -78,15 +57,7 @@ public class MessageApiController {
 		} else {
 			messages = messageService.findMessagesByChannelId(channelId);
 		}
-//		List<Message> messageDTOs = messages.stream().map(message -> {
-//			MessageDTO dto = new MessageDTO();
-//			dto.setContent(message.getContent());
-//			dto.setChannelId(message.getChannel().getId());
-//			if(message.getUser() !=null) {
-//				dto.setUsername(message.getUser().getUsername());
-//			}
-//			return dto;
-//		}).collect(Collectors.toList());
+//
 		return ResponseEntity.ok(messages);
 	}
 
