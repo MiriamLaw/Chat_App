@@ -19,27 +19,27 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MessageController {
-	
-	private final MessageService messageService;
-	private final ChannelService channelService;
-	
-	@Autowired
-	public MessageController(MessageService messageService, ChannelService channelService) {
-		this.messageService = messageService;
-		this.channelService = channelService;
-	}
-	
-	@PostMapping("/channels/{channelId}/messages")
-	public String postMessage(@PathVariable Long channelId, @RequestBody MessageDTO messageDTO, HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		Channel channel = channelService.findById(channelId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
-		Message message = new Message();
-		message.setContent(messageDTO.getContent());
-		message.setUser(user);
-		message.setChannel(channel);
-		messageService.save(message);
-		
-		return "redirect:/channels/{channelId}";
-	}
+
+    private final MessageService messageService;
+    private final ChannelService channelService;
+
+    @Autowired
+    public MessageController(MessageService messageService, ChannelService channelService) {
+        this.messageService = messageService;
+        this.channelService = channelService;
+    }
+
+    @PostMapping("/channels/{channelId}/messages")
+    public String postMessage(@PathVariable Long channelId, @RequestBody MessageDTO messageDTO, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        Channel channel = channelService.findById(channelId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
+        Message message = new Message();
+        message.setContent(messageDTO.getContent());
+        message.setUser(user);
+        message.setChannel(channel);
+        messageService.save(message);
+
+        return "redirect:/channels/{channelId}";
+    }
 
 }

@@ -9,7 +9,7 @@ import com.coderscampus.miriamassignment14.domain.Message;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-	List<Message> findByChannelId(Long channelId);
+    List<Message> findByChannelId(Long channelId);
 
     List<Message> findByChannelIdAndIdGreaterThan(Long channelId, Long mostRecentMessageId);
 }

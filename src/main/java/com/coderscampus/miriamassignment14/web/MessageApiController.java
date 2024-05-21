@@ -20,45 +20,44 @@ import com.coderscampus.miriamassignment14.service.MessageService;
 @RequestMapping("/api/messages")
 public class MessageApiController {
 
-	private final MessageService messageService;
-	private final ChannelService channelService;
+    private final MessageService messageService;
+    private final ChannelService channelService;
 
-	@Autowired
-	public MessageApiController(MessageService messageService, ChannelService channelService) {
-		this.messageService = messageService;
-		this.channelService = channelService;
-	}
-
-//	
-	
-	@PostMapping("/createMessage/{channelId}")
-	public ResponseEntity<Message> createMessage(@PathVariable Long channelId, @RequestBody Message message) {
-//
-
-		Channel channel = channelService.findById(channelId)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
-
-		Message newMessage = new Message();
-		newMessage.setContent(message.getContent());
-		newMessage.setChannel(channel);
-		newMessage.setUser(message.getUser());
-		System.out.println(newMessage);
-		Message savedMessage = messageService.save(newMessage);
-		
-		return ResponseEntity.ok(savedMessage);
-	}
+    @Autowired
+    public MessageApiController(MessageService messageService, ChannelService channelService) {
+        this.messageService = messageService;
+        this.channelService = channelService;
+    }
 
 
-	@GetMapping("/channels/{channelId}/messages")
-	public ResponseEntity<List<Message>> getMessages(@PathVariable Long channelId, @RequestParam(required=false) Long mostRecentMessageId) {
-		List<Message> messages;
-		if(mostRecentMessageId != null) {
-			messages = messageService.findNewMessagesByChannelId(channelId, mostRecentMessageId);
-		} else {
-			messages = messageService.findMessagesByChannelId(channelId);
-		}
-//
-		return ResponseEntity.ok(messages);
-	}
+    @PostMapping("/createMessage/{channelId}")
+    public ResponseEntity<Message> createMessage(@PathVariable Long channelId, @RequestBody Message message) {
+
+
+        Channel channel = channelService.findById(channelId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
+
+        Message newMessage = new Message();
+        newMessage.setContent(message.getContent());
+        newMessage.setChannel(channel);
+        newMessage.setUser(message.getUser());
+
+        Message savedMessage = messageService.save(newMessage);
+
+        return ResponseEntity.ok(savedMessage);
+    }
+
+
+    @GetMapping("/channels/{channelId}/messages")
+    public ResponseEntity<List<Message>> getMessages(@PathVariable Long channelId, @RequestParam(required = false) Long mostRecentMessageId) {
+        List<Message> messages;
+        if (mostRecentMessageId != null) {
+            messages = messageService.findNewMessagesByChannelId(channelId, mostRecentMessageId);
+        } else {
+            messages = messageService.findMessagesByChannelId(channelId);
+        }
+
+        return ResponseEntity.ok(messages);
+    }
 
 }

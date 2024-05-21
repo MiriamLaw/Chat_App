@@ -16,76 +16,74 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "users")
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private String username;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<Message> messages = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Message> messages = new HashSet<>();
 
-	public User() {
-		super();
-	}
+    public User() {
+        super();
+    }
 
-	public User(Long id, String username, Set<Message> messages) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.messages = messages;
-	}
+    public User(Long id, String username, Set<Message> messages) {
+        super();
+        this.id = id;
+        this.username = username;
+        this.messages = messages;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public Set<Message> getMessages() {
-		return messages;
-	}
+    public Set<Message> getMessages() {
+        return messages;
+    }
 
-	public void setMessages(Set<Message> messages) {
-		this.messages = messages;
-	}
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		return Objects.equals(id, other.id);
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        return Objects.equals(id, other.id);
+    }
 
-	@Override
-	public String toString() {
-		return "User{" +
-				"id=" + id +
-				", username='" + username + '\'' +
-				", messages=" + messages +
-				'}';
-	}
-	
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", messages=" + messages +
+                '}';
+    }
 
-	
 
 }

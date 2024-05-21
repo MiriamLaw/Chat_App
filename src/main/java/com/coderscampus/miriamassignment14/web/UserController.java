@@ -14,31 +14,30 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
-	
-	private final UserService userService;
-	
-	@Autowired
-	public UserController(UserService userService) {
-		this.userService = userService;
-	}
-	
-	@GetMapping("/")
-	public String welcome(Model model) {
-		User user = new User();
-		model.addAttribute("user", user);
-		return "welcome";
-	}
-	
-	@PostMapping("/setUser")
-	public String setUser(String username) {
-		User user = userService.findByUsername(username).orElse(new User());
-		user.setUsername(username);
-		user = userService.save(user);
-		
-//		session.setAttribute("user", user);
-		System.out.println(user);
-		return "redirect:/channels/" + user.getId();
-		
-	}
+
+    private final UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/")
+    public String welcome(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "welcome";
+    }
+
+    @PostMapping("/setUser")
+    public String setUser(String username) {
+        User user = userService.findByUsername(username).orElse(new User());
+        user.setUsername(username);
+        user = userService.save(user);
+
+
+        return "redirect:/channels/" + user.getId();
+
+    }
 
 }
