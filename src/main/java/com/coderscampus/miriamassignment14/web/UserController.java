@@ -29,15 +29,26 @@ public class UserController {
         return "welcome";
     }
 
+    //adjusted method below for redirect per code review:
     @PostMapping("/setUser")
-    public String setUser(String username) {
+    public String setUser(@RequestParam String username, HttpSession session) {
         User user = userService.findByUsername(username).orElse(new User());
         user.setUsername(username);
         user = userService.save(user);
-
+        session.setAttribute("username", username);
 
         return "redirect:/channels/" + user.getId();
-
     }
+
+//    @PostMapping("/setUser")
+//    public String setUser(String username) {
+//        User user = userService.findByUsername(username).orElse(new User());
+//        user.setUsername(username);
+//        user = userService.save(user);
+//
+//
+//        return "redirect:/channels/" + user.getId();
+//
+//    }
 
 }

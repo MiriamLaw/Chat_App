@@ -17,6 +17,16 @@
             <input type="text" id="messageContent" name="messageContent" required>
             <button type="button" id="sendMessage">Send</button>
         </form>
+
+        <script>
+            // Check for username in session storage
+            const username = sessionStorage.getItem("username");
+            if (!username) {
+                alert("You need to enter your username to access this page.");
+                window.location.href = "/";
+            }
+        </script>
+        
         <script src="/channel.js"></script>
 
     </body>

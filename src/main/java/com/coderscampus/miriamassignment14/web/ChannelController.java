@@ -3,6 +3,9 @@ package com.coderscampus.miriamassignment14.web;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -28,39 +31,91 @@ public class ChannelController {
     private final MessageService messageService;
     private final UserService userService;
 
+    private static final Logger logger = LoggerFactory.getLogger(ChannelController.class);
+
     @Autowired
     public ChannelController(ChannelService channelService, MessageService messageService, UserService userService) {
         this.channelService = channelService;
         this.messageService = messageService;
         this.userService = userService;
     }
+// adjusted below method for redirect per code review:
 
     @GetMapping("/channels/{userId}/{channelId}")
-    public String viewChannel(@PathVariable Long channelId, @PathVariable Long userId, Model model) {
+    public String viewChannel(@PathVariable Long channelId, @PathVariable Long userId, Model model, HttpSession session) {
+
+        String username = (String) session.getAttribute("username");
+        logger.info("Checking session for username in viewChannel: {}", username);
+        if (username == null || username.isEmpty()) {
+            logger.info("Username is null or empty, redirecting to welcome page");
+            return "redirect:/";
+        }
+
+        Optional<User> optionalUser = userService.findById(userId);
+        User user = optionalUser.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
         Channel channel = channelService.findById(channelId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
 
         List<Message> messages = messageService.findMessagesByChannelId(channelId);
-        Optional<User> optionalUser = userService.findById(userId);
-        User user = optionalUser.get();
         model.addAttribute("user", user);
         model.addAttribute("channel", channel);
         model.addAttribute("messages", messages);
+        model.addAttribute("username", username);
 
         return "channel";
     }
 
+//    @GetMapping("/channels/{userId}/{channelId}")
+//    public String viewChannel(@PathVariable Long channelId, @PathVariable Long userId, Model model) {
+//        Channel channel = channelService.findById(channelId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
+//
+//        List<Message> messages = messageService.findMessagesByChannelId(channelId);
+//        Optional<User> optionalUser = userService.findById(userId);
+//        User user = optionalUser.get();
+//        model.addAttribute("user", user);
+//        model.addAttribute("channel", channel);
+//        model.addAttribute("messages", messages);
+//
+//        return "channel";
+//    }
+
+
+    //adjusted below method for redirect per code review
     @GetMapping("/channels/{userId}")
-    public String showChannels(@PathVariable Long userId, Model model) {
+    public String showChannels(@PathVariable Long userId, Model model, HttpSession session) {
+        String username = (String) session.getAttribute("username");
+        logger.info("Checking session for username in showChannels: {}", username);
+        if (username == null || username.isEmpty()) {
+            logger.info("Username is null or empty, redirecting to welcome page");
+
+            return "redirect:/";
+        }
+
         List<Channel> channels = channelService.findAll();
         Optional<User> optionalUser = userService.findById(userId);
-        User user = optionalUser.get();
+        User user = optionalUser.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         Channel channel = new Channel();
         model.addAttribute("user", user);
         model.addAttribute("channels", channels);
         model.addAttribute("channel", channel);
+        model.addAttribute("username", username);
         return "channels";
     }
+
+
+//    @GetMapping("/channels/{userId}")
+//    public String showChannels(@PathVariable Long userId, Model model) {
+//        List<Channel> channels = channelService.findAll();
+//        Optional<User> optionalUser = userService.findById(userId);
+//        User user = optionalUser.get();
+//        Channel channel = new Channel();
+//        model.addAttribute("user", user);
+//        model.addAttribute("channels", channels);
+//        model.addAttribute("channel", channel);
+//        return "channels";
+//    }
 
     @PostMapping("/channels/createChannel/{userId}")
     public String createChannel(String name, @PathVariable Long userId) {
