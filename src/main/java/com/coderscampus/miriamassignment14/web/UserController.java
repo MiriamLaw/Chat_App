@@ -40,15 +40,4 @@ public class UserController {
         return "redirect:/channels/" + user.getId();
     }
 
-//    @PostMapping("/setUser")
-//    public String setUser(String username) {
-//        User user = userService.findByUsername(username).orElse(new User());
-//        user.setUsername(username);
-//        user = userService.save(user);
-//
-//
-//        return "redirect:/channels/" + user.getId();
-//
-//    }
-
 }

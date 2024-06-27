@@ -66,21 +66,6 @@ public class ChannelController {
         return "channel";
     }
 
-//    @GetMapping("/channels/{userId}/{channelId}")
-//    public String viewChannel(@PathVariable Long channelId, @PathVariable Long userId, Model model) {
-//        Channel channel = channelService.findById(channelId)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Channel not found"));
-//
-//        List<Message> messages = messageService.findMessagesByChannelId(channelId);
-//        Optional<User> optionalUser = userService.findById(userId);
-//        User user = optionalUser.get();
-//        model.addAttribute("user", user);
-//        model.addAttribute("channel", channel);
-//        model.addAttribute("messages", messages);
-//
-//        return "channel";
-//    }
-
 
     //adjusted below method for redirect per code review
     @GetMapping("/channels/{userId}")
@@ -104,18 +89,6 @@ public class ChannelController {
         return "channels";
     }
 
-
-//    @GetMapping("/channels/{userId}")
-//    public String showChannels(@PathVariable Long userId, Model model) {
-//        List<Channel> channels = channelService.findAll();
-//        Optional<User> optionalUser = userService.findById(userId);
-//        User user = optionalUser.get();
-//        Channel channel = new Channel();
-//        model.addAttribute("user", user);
-//        model.addAttribute("channels", channels);
-//        model.addAttribute("channel", channel);
-//        return "channels";
-//    }
 
     @PostMapping("/channels/createChannel/{userId}")
     public String createChannel(String name, @PathVariable Long userId) {

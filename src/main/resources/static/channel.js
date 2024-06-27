@@ -1,4 +1,8 @@
 const username = sessionStorage.getItem("username");
+if (!username) {
+  alert("You need to enter a username to access this page.");
+  window.location.href = '/';
+} else {
 const userIdInput = document.getElementById("userId");
 const userId = userIdInput.value;
 const channelIdInput = document.getElementById("channelId");
@@ -101,3 +105,4 @@ async function checkForNewMessages() {
   }
 }
 setInterval(checkForNewMessages, 2000);
+}
