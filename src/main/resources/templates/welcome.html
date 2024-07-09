@@ -5,6 +5,7 @@
   </head>
   <body>
     <h1>Welcome to the Chat App!</h1>
+    <div id="message"></div>
     <form id="joinForm" th:action="@{/setUser}" method="post">
       <label for="username">Enter your name:</label>
       <input
@@ -18,5 +19,13 @@
     </form>
 
     <script src="/welcome.js"></script>
+    <script>
+      // Check if there's a message in the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get('message');
+      if (message === 'enter_username') {
+        document.getElementById('message').textContent = 'Please enter a username to access the page.';
+      }
+    </script>
   </body>
 </html>
